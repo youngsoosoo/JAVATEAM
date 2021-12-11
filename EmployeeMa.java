@@ -25,7 +25,7 @@ public class EmployeeMa extends javax.swing.JFrame {
         }
     }
     public void getDBData(String strQuery){
-        String strOutput="ID\t비밀번호\t이름\t성별\t주소\t생일\t전화번호\t계좌번호\t총 시간\n";
+        String strOutput="ID\t비밀번호\t이름\t성별\t주소\t생일\t전화번호\t계좌번호\n";
         jTextArea1.setText(strOutput);
         try{
             DBM.DB_rs=DBM.DB_stmt.executeQuery(strQuery);
@@ -38,8 +38,7 @@ public class EmployeeMa extends javax.swing.JFrame {
                 strOutput+=DBM.DB_rs.getString("address")+"\t";
                 strOutput+=DBM.DB_rs.getString("birthday")+"\t";
                 strOutput+=DBM.DB_rs.getString("phonenum")+"\t";
-                strOutput+=DBM.DB_rs.getString("account")+"\t";
-                strOutput+=DBM.DB_rs.getString("worktime")+"\n";
+                strOutput+=DBM.DB_rs.getString("account")+"\n";
                 jTextArea1.append(strOutput);
             }
         }catch(Exception e){
@@ -52,27 +51,8 @@ public class EmployeeMa extends javax.swing.JFrame {
                 strQuery+=" Where employee.id = '"+txtId.getText()+"'";
                 break;
             case 1:
-                strQuery+=" Where employee.pw = '"+txtPw.getText()+"'";
-                break;
-            case 2:
                 strQuery+=" Where employee.name = '"+txtName.getText()+"'";
                 break;
-            case 3:
-                strQuery+=" Where employee.gender = '"+txtGender.getText()+"'";
-                break;
-            case 4:
-                strQuery+=" Where employee.address = '"+txtAddress.getText()+"'";
-                break;
-            case 5:
-                strQuery+=" Where employee.birthday = '"+txtBirthday.getText()+"'";
-                break;
-            case 6:
-                strQuery+=" Where employee.phonenum = '"+txtPhonenum.getText()+"'";
-                break;
-            case 7:
-                strQuery+=" Where employee.account = '"+txtAccount.getText()+"'";
-                break;    
-            
             default:
                 strQuery = "Select * From employee ";
                 break;
@@ -130,7 +110,7 @@ public class EmployeeMa extends javax.swing.JFrame {
 
         jLabel8.setText("검색 기준");
 
-        cboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "PASSWORD", "이름", "성별", "주소", "생일", "전화번호", "계좌번호" }));
+        cboSearch.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ID", "이름" }));
 
         btnSelect.setText("검색");
         btnSelect.setToolTipText("");
@@ -234,7 +214,7 @@ public class EmployeeMa extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 281, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,7 +222,9 @@ public class EmployeeMa extends javax.swing.JFrame {
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 760, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -346,7 +328,9 @@ public class EmployeeMa extends javax.swing.JFrame {
         strSQL+="'"+txtAddress.getText()+"',";
         strSQL+="'"+txtBirthday.getText()+"',";
         strSQL+="'"+txtPhonenum.getText()+"',";
-        strSQL+="'"+txtAccount.getText()+"')";
+        strSQL+="'"+txtAccount.getText()+"',";
+        strSQL+="'0',";
+        strSQL+="'0')";
         try{
             DBM.dbOpen();
             DBM.DB_stmt.executeUpdate(strSQL);
@@ -362,12 +346,12 @@ public class EmployeeMa extends javax.swing.JFrame {
         strSQL= "Update employee Set ";
         strSQL+="id = '"+txtId.getText()+"', ";
         strSQL+="pw = '"+txtPw.getText()+"', ";
-        strSQL+="name = "+txtName.getText()+", ";
-        strSQL+="gender = "+txtGender.getText()+", ";
-        strSQL+="address = "+txtAddress.getText()+", ";
-        strSQL+="birthday = "+txtBirthday.getText()+", ";
-        strSQL+="phonenum = "+txtPhonenum.getText()+", ";
-        strSQL+="account = "+txtAccount.getText();
+        strSQL+="name = '"+txtName.getText()+"', ";
+        strSQL+="gender = '"+txtGender.getText()+"', ";
+        strSQL+="address = '"+txtAddress.getText()+"', ";
+        strSQL+="birthday = '"+txtBirthday.getText()+"', ";
+        strSQL+="phonenum = '"+txtPhonenum.getText()+"', ";
+        strSQL+="account = '"+txtAccount.getText()+"' ";
         strSQL = makeSQLWhere(strSQL);
         try{
             DBM.dbOpen();

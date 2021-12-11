@@ -40,7 +40,6 @@ public class JoinFrame extends javax.swing.JFrame {
         a4 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        btnoverlap = new javax.swing.JButton();
         a5 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -67,13 +66,6 @@ public class JoinFrame extends javax.swing.JFrame {
         jLabel7.setText("주소");
 
         jLabel12.setText("PW");
-
-        btnoverlap.setText("중복확인");
-        btnoverlap.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnoverlapActionPerformed(evt);
-            }
-        });
 
         jLabel8.setFont(new java.awt.Font("굴림", 1, 18)); // NOI18N
         jLabel8.setText("회원가입");
@@ -126,8 +118,7 @@ public class JoinFrame extends javax.swing.JFrame {
                                             .addComponent(a1)
                                             .addComponent(a8, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
                                         .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnoverlap))
+                        .addGap(88, 88, 88))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btn_joinreturn)
@@ -143,8 +134,7 @@ public class JoinFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(a1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnoverlap))
+                    .addComponent(a1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
@@ -198,6 +188,7 @@ public class JoinFrame extends javax.swing.JFrame {
             strSQL += "'" + a6.getText() + "', ";
             strSQL += "'" + a7.getText() + "', ";
             strSQL += "'" + a8.getText() + "', ";
+            strSQL += "'" + "0" + "', ";
             strSQL += "'" + "0" + "')";
             try{
                 DBM.dbOpen();
@@ -208,15 +199,11 @@ public class JoinFrame extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "회원가입 성공!");
             }catch(Exception e){
                 System.out.println("SQLException2 : " + e.getMessage());
-                JOptionPane.showMessageDialog(null, "회원가입 실패!");
+                JOptionPane.showMessageDialog(null, "회원가입 실패! ID가 중복되거나 오류입니다 !");
             }
         }
         
     }//GEN-LAST:event_btnregisterActionPerformed
-
-    private void btnoverlapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnoverlapActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnoverlapActionPerformed
 
     private void btn_joinreturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_joinreturnActionPerformed
         dispose();//로그인페이지 닫기
@@ -269,7 +256,6 @@ public class JoinFrame extends javax.swing.JFrame {
     private javax.swing.JTextField a7;
     private javax.swing.JTextField a8;
     private javax.swing.JButton btn_joinreturn;
-    private javax.swing.JButton btnoverlap;
     private javax.swing.JButton btnregister;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

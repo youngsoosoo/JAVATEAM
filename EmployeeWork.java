@@ -23,11 +23,25 @@ public class EmployeeWork extends javax.swing.JFrame {
      */
     public EmployeeWork() {
         initComponents();
+        try{
+            DBM.dbOpen();
+            getDBData(strSQL);
+            DBM.dbClose();
+        }catch(Exception e){
+            System.out.println("SQLException13 : " + e.getMessage());
+        }
     }
-    int time1 = 0;
-    int time2 = 0;
-    int min1 = 0;
-    int min2 = 0;
+    public void getDBData(String strQuery){
+        String strOutput="ID\t일한 시간(분)\t이번달 급여\n";
+        jTextArea1.setText(strOutput);
+      
+            
+        
+    }
+    int time1=0;
+    int time2=0;
+    int min1=0;
+    int min2=0;
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,9 +67,9 @@ public class EmployeeWork extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        btnselect = new javax.swing.JButton();
+        btnsel = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -103,10 +117,6 @@ public class EmployeeWork extends javax.swing.JFrame {
             }
         });
 
-        lblwork.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        lblout.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jButton1.setText("시간 계산");
@@ -119,16 +129,16 @@ public class EmployeeWork extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("굴림", 1, 18)); // NOI18N
         jLabel1.setText("직원 근무 시간");
 
-        jLabel7.setText("총 시간");
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        btnselect.setText("검색");
-        btnselect.addActionListener(new java.awt.event.ActionListener() {
+        btnsel.setText("검색");
+        btnsel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnselectActionPerformed(evt);
+                btnselActionPerformed(evt);
             }
         });
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -137,93 +147,99 @@ public class EmployeeWork extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addComponent(jLabel1))
-                            .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel6)
                                     .addComponent(jLabel5)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel7))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnselect))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                                            .addComponent(lblwork, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(lblout, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addGap(27, 27, 27)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(btn_addreturn)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(btnwork)
-                                                .addComponent(jButton1))
-                                            .addComponent(btnout, javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnsave, javax.swing.GroupLayout.Alignment.LEADING)))))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(btnreset)))
-                .addGap(0, 48, Short.MAX_VALUE))
+                                    .addComponent(jLabel2)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel3)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lblout, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblwork, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(9, 9, 9)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnsel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnwork, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(30, 30, 30)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 2, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnreset)
+                .addGap(18, 18, 18)
+                .addComponent(btnsave, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btn_addreturn)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jLabel1)
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnselect))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jLabel1)
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnsel))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblwork, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblout, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnwork)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnout)
+                                        .addGap(4, 4, 4))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel5)))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(lblout, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(lblwork, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel2))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jLabel5))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnwork)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnout)
-                                .addGap(4, 4, 4)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnreset)
-                            .addComponent(btn_addreturn)))
-                    .addComponent(btnsave))
-                .addGap(71, 71, 71))
+                        .addGap(71, 71, 71)
+                        .addComponent(jScrollPane1)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_addreturn)
+                    .addComponent(btnsave)
+                    .addComponent(btnreset))
+                .addGap(39, 39, 39))
         );
 
         pack();
@@ -240,8 +256,6 @@ public class EmployeeWork extends javax.swing.JFrame {
         Calendar calendar1 = Calendar.getInstance();
         int hour = calendar1.get(Calendar.HOUR_OF_DAY);
         int min = calendar1.get(Calendar.MINUTE);
-        time2 = 0;
-        min2 = 0;
         lblout.setText(hour + ":" + min);
         time2 = hour;
         min2 = min;
@@ -253,7 +267,6 @@ public class EmployeeWork extends javax.swing.JFrame {
         lblout.setText("");
         jLabel4.setText("");
         jTextField1.setText("");
-        jLabel8.setText("");
     }//GEN-LAST:event_btnresetActionPerformed
 
     private void btnworkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnworkActionPerformed
@@ -261,8 +274,6 @@ public class EmployeeWork extends javax.swing.JFrame {
         Calendar calendar1 = Calendar.getInstance();
         int hour = calendar1.get(Calendar.HOUR_OF_DAY);
         int min = calendar1.get(Calendar.MINUTE);
-        time1 = 0;
-        min1 = 0;
         lblwork.setText(hour + ":" + min);
         time1 = hour;
         min1 = min;
@@ -275,10 +286,13 @@ public class EmployeeWork extends javax.swing.JFrame {
         int set = timeset + minset;
         
         jLabel4.setText(Integer.toString(set));
+        
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsaveActionPerformed
         // TODO add your handling code here:
+        String alltime = "";
         try{
             DBM.dbOpen();
             String  id = jTextField1.getText();
@@ -286,11 +300,13 @@ public class EmployeeWork extends javax.swing.JFrame {
             String sql = "select * from employee where id='" + id + "'";
             ResultSet rs = stm.executeQuery(sql);
             
-            String timeset = Integer.toString(Integer.parseInt(jLabel4.getText()) + Integer.parseInt(jLabel8.getText()));
             
             if(rs.next()){
                 try{
-                    strSQL = "update employee set worktime = '" + timeset + "' ";
+                    alltime = rs.getString("worktime");
+                    String timeset = Integer.toString(Integer.parseInt(jLabel4.getText()) + Integer.parseInt(alltime));
+                    String sal = Integer.toString((Integer.parseInt(timeset)*8720)/60);
+                    strSQL = "update employee set worktime = '" + timeset + "',sal ='"+sal+"' ";
                     strSQL += " WHERE employee.id = '" + jTextField1.getText() + "'";
                     DBM.DB_stmt.executeUpdate(strSQL);
                     DBM.dbClose();
@@ -307,27 +323,31 @@ public class EmployeeWork extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnsaveActionPerformed
 
-    private void btnselectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnselectActionPerformed
-        // TODO add your handling code here:
+    private void btnselActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnselActionPerformed
+         String strOutput="ID\t일한 시간(분)\t이번달 급여\n";
+        jTextArea1.setText(strOutput);
         try{
             DBM.dbOpen();
             String  id = jTextField1.getText();
             Statement stm = DBM.DB_con.createStatement();
-            String sql2 = "select * from employee where id='"+id+"'";
+            String sql2 = "select id,worktime,sal from employee where id='"+id+"'";
             ResultSet rs2 = stm.executeQuery(sql2);
-            if(rs2.next()){
-                jLabel8.setText(rs2.getString("worktime"));
-            }else{
-                //id랑 pw 틀렸을때
-                JOptionPane.showMessageDialog(this, "ID나 비밀번호가 틀렸습니다...");
-                jTextField1.setText("");
-            }
+            
+            
+                while(rs2.next()){
+                    strOutput="";
+                    strOutput+=rs2.getString("id")+"\t";
+                    strOutput+=rs2.getString("worktime")+"\t";
+                    strOutput+=rs2.getString("sal")+"\n";
+                jTextArea1.append(strOutput);
+                 }
+            
             DBM.DB_con.close();
             
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-    }//GEN-LAST:event_btnselectActionPerformed
+    }//GEN-LAST:event_btnselActionPerformed
 
     /**
      * @param args the command line arguments
@@ -369,7 +389,7 @@ public class EmployeeWork extends javax.swing.JFrame {
     private javax.swing.JButton btnout;
     private javax.swing.JButton btnreset;
     private javax.swing.JButton btnsave;
-    private javax.swing.JButton btnselect;
+    private javax.swing.JButton btnsel;
     private javax.swing.JButton btnwork;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
@@ -378,8 +398,8 @@ public class EmployeeWork extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblout;
     private javax.swing.JLabel lblwork;

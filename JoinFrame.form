@@ -61,8 +61,7 @@
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnoverlap" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="88" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -84,7 +83,6 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="a1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnoverlap" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -176,14 +174,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="PW"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnoverlap">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="&#xc911;&#xbcf5;&#xd655;&#xc778;"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnoverlapActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="a5">
     </Component>
